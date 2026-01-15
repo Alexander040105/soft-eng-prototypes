@@ -54,3 +54,4 @@ dotenv
 psycopg2
 supabase
 aiosqlite
+alembic

@@ -80,18 +80,17 @@ class ProfessorBase(BaseModel):
     Instructor_Name: str = Field(..., max_length=100)
     Department: str = Field(default='CCS', max_length=100)
     Username: str = Field(..., max_length=50)
-
+    Email: EmailStr
 class ProfessorCreate(ProfessorBase):
     Instructor_ID: str = Field(..., max_length=20)
     Password: str = Field(..., max_length=255)
-
 
 class ProfessorUpdate(BaseModel):
     Instructor_Name: Optional[str] = Field(None, max_length=100)
     Department: Optional[str] = Field(None, max_length=100)
     Username: Optional[str] = Field(None, max_length=50)
     Password: Optional[str] = Field(None, max_length=255)
-
+    Email: Optional[EmailStr] = None
 class ProfessorResponse(ProfessorBase):
     Instructor_ID: str
     
@@ -103,6 +102,7 @@ class AdminBase(BaseModel):
     Admin_Name: str = Field(..., max_length=100)
     Admin_Role: str = Field(..., max_length=50)
     Department: Optional[str] = Field(None, max_length=100)
+    Email: EmailStr
     Username: str = Field(..., max_length=50)
 
 class AdminCreate(AdminBase):
@@ -114,7 +114,7 @@ class AdminUpdate(BaseModel):
     Department: Optional[str] = Field(None, max_length=100)
     Username: Optional[str] = Field(None, max_length=50)
     Password: Optional[str] = Field(None, max_length=255)
-
+    Email: Optional[EmailStr] = None
 class AdminResponse(AdminBase):
     Admin_ID: int
     

@@ -23,6 +23,7 @@ CREATE TABLE Students (
 CREATE TABLE Professors (
     Instructor_ID VARCHAR(20) PRIMARY KEY,
     Instructor_Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
     Department VARCHAR(100) DEFAULT 'CCS',
     Username VARCHAR(50) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL
@@ -31,6 +32,7 @@ CREATE TABLE Professors (
 CREATE TABLE Admins (
     Admin_ID INT PRIMARY KEY AUTO_INCREMENT,
     Admin_Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
     Admin_Role VARCHAR(50) NOT NULL,
     Department VARCHAR(100),
     Username VARCHAR(50) UNIQUE NOT NULL,
@@ -134,7 +136,7 @@ CREATE TABLE Exams (
 CREATE TABLE Scholars (
     Scholar_ID INT PRIMARY KEY AUTO_INCREMENT,
     Student_ID VARCHAR(20) NOT NULL UNIQUE,
-    Rank INT,
+    Student_Rank INT,
     Scholarship_Type VARCHAR(100),
     Academic_Year VARCHAR(20) NOT NULL,
     Semester VARCHAR(20) NOT NULL,
@@ -149,13 +151,13 @@ INSERT INTO Programs (Program_Name, Department) VALUES
 ('BS Information Technology', 'CCS');
 
 -- Insert Sample Professors
-INSERT INTO Professors (Instructor_ID, Instructor_Name, Department, Username, Password) VALUES
-('CCS001', 'Dr. Maria Santos', 'CCS', 'maria_santos', 'prof123'),
-('CCS002', 'Prof. Juan Dela Cruz', 'CCS', 'juan_dela_cruz', 'prof456');
+INSERT INTO Professors (Instructor_ID, Instructor_Name, Department, Username, Password, Email) VALUES
+('CCS001', 'Dr. Maria Santos', 'CCS', 'maria_santos', 'prof123', 'maria.santos@university.edu'),
+('CCS002', 'Prof. Juan Dela Cruz', 'CCS', 'juan_dela_cruz', 'prof456', 'juan.dela.cruz@university.edu');
 
 -- Insert Sample Admin
-INSERT INTO Admins (Admin_Name, Admin_Role, Department, Username, Password) VALUES
-('Admin User', 'System Administrator', 'CCS', 'admin', 'admin123');
+INSERT INTO Admins (Admin_Name, Admin_Role, Department, Username, Password, Email) VALUES
+('Admin User', 'System Administrator', 'CCS', 'admin', 'admin123', 'admin@university.edu');
 
 -- Insert Sample Courses
 INSERT INTO Courses (Subject_ID, Subject_Name, Units, Schedule, Section) VALUES

@@ -74,6 +74,7 @@ class Professor(Base):
     Instructor_ID = Column(String(20), primary_key=True)
     Instructor_Name = Column(String(100), nullable=False)
     Department = Column(String(100), default='CCS')
+    Email = Column(String(100), unique=True, nullable=False)
     Username = Column(String(50), unique=True, nullable=False)
     Password = Column(String(255), nullable=False)
     
@@ -92,6 +93,7 @@ class Admin(Base):
     Admin_Name = Column(String(100), nullable=False)
     Admin_Role = Column(String(50), nullable=False)
     Department = Column(String(100))
+    Email = Column(String(100), unique=True, nullable=False)
     Username = Column(String(50), unique=True, nullable=False)
     Password = Column(String(255), nullable=False)
 
