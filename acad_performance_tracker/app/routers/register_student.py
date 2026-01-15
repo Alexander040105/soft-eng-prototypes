@@ -1,28 +1,60 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, HTTPException, Depends
-from sqlalchemy.orm import Session
-from acad_performance_tracker.app import schemas, models, database, app  # Relative imports
-from acad_performance_tracker.app.database import get_db
-from fastapi import APIRouter
 from werkzeug.security import generate_password_hash, check_password_hash
-from acad_performance_tracker.app import models
+from app import schemas, models  # Relative import - remove acad_performance_tracker
+from app.database import get_db  # Relative import
+
+# Create router instance
+router = APIRouter(prefix="/auth")
 
 def hashing_password(password: str) -> str:
-        return generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+    return generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
 
-@app.post("/auth/register_student", response_model=schemas.StudentCreate, status_code=201)
+@router.post("/register_student", response_model=schemas.StudentResponse, status_code=status.HTTP_201_CREATED)
 def register_student(student: schemas.StudentCreate, db: Session = Depends(get_db)):
+    # Check if student ID already exists
+    existing_student = db.query(models.Student).filter(
+        models.Student.Student_ID == student.Student_ID
+    ).first()
+    
+    if existing_student:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Student ID already exists"
+        )
+    
+    existing_username = db.query(models.Student).filter(
+        models.Student.Username == student.Username
+    ).first()
+    
+    if existing_username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already exists"
+        )
+    
+    existing_email = db.query(models.Student).filter(
+        models.Student.Email == student.Email
+    ).first()
+    
+    if existing_email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already exists"
+        )
+    
     new_student = models.Student(
         Student_ID=student.Student_ID,
-        Email=student.Email,                  
-        Year=student.Year,                    
-        Username=student.Username,            
-        Password=hashing_password(student.Password),  
-        Program_ID=student.Program_ID        
+        Name=student.Name,  # Don't forget Name field!
+        Email=student.Email,
+        Year=student.Year,
+        Username=student.Username,
+        Password=hashing_password(student.Password),
+        Program_ID=student.Program_ID
     )
 
     db.add(new_student)
     db.commit()
     db.refresh(new_student)
+    
     return new_student

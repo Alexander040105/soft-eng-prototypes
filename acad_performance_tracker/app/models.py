@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, Enum, Date, TIMESTAMP, CheckConstraint, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from database import Base
+from app.database import Base
 import enum
 
 # Enum definitions
@@ -54,8 +54,8 @@ class Student(Base):
     Program_ID = Column(Integer, ForeignKey('Programs.Program_ID'), nullable=False)
     
     __table_args__ = (
-        CheckConstraint('Year BETWEEN 1 AND 5', name='check_year'),
-        CheckConstraint('GWA >= 1.00 AND GWA <= 5.00', name='check_gwa'),
+        CheckConstraint('"Year" BETWEEN 1 AND 5', name='check_year'),
+        CheckConstraint('"GWA" >= 1.00 AND "GWA" <= 5.00', name='check_gwa'),
     )
     
     # Relationships
@@ -106,7 +106,7 @@ class Course(Base):
     Schedule = Column(String(100))
     
     __table_args__ = (
-        CheckConstraint('Units > 0', name='check_units'),
+        CheckConstraint('"Units" > 0', name='check_units'),
     )
     
     # Relationships
@@ -152,7 +152,7 @@ class Grade(Base):
     Date_Recorded = Column(TIMESTAMP, server_default=func.current_timestamp())
     
     __table_args__ = (
-        CheckConstraint('Grade >= 1.00 AND Grade <= 5.00', name='check_grade_range'),
+        CheckConstraint('"Grade" >= 1.00 AND "Grade" <= 5.00', name='check_grade_range'),
         UniqueConstraint('Student_ID', 'Subject_ID', 'Term', 'Academic_Year', 'Semester', name='unique_grade'),
     )
     
@@ -178,7 +178,7 @@ class Quiz(Base):
     Date_Recorded = Column(TIMESTAMP, server_default=func.current_timestamp())
     
     __table_args__ = (
-        CheckConstraint('Total_Items > 0', name='check_quiz_total_items'),
+        CheckConstraint('"Total_Items" > 0', name='check_quiz_total_items'),
     )
     
     # Relationships
@@ -203,7 +203,7 @@ class Assignment(Base):
     Date_Recorded = Column(TIMESTAMP, server_default=func.current_timestamp())
     
     __table_args__ = (
-        CheckConstraint('Total_Items > 0', name='check_assignment_total_items'),
+        CheckConstraint('"Total_Items" > 0', name='check_assignment_total_items'),
     )
     
     # Relationships
@@ -227,7 +227,7 @@ class Exam(Base):
     Date_Recorded = Column(TIMESTAMP, server_default=func.current_timestamp())
     
     __table_args__ = (
-        CheckConstraint('Total_Items > 0', name='check_exam_total_items'),
+        CheckConstraint('"Total_Items" > 0', name='check_exam_total_items'),
         UniqueConstraint('Student_ID', 'Subject_ID', 'Term', name='unique_exam'),
     )
     

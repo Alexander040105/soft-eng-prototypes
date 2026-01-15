@@ -4,20 +4,30 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 
+# Load environment variables from .env
 load_dotenv()
 
-# Database connection settings
-os.environ['DB_USERNAME'] = os.getenv('DB_USERNAME', 'root')
-os.environ['DB_PASSWORD'] = os.getenv('DB_PASSWORD', 'password')
-DATABASE_URL = f"mysql+pymysql://{os.environ['DB_USERNAME']}:{os.environ['DB_PASSWORD']}@localhost:3306/academic_tracker"
+# Fetch Supabase credentials
+USER = os.getenv("user")
+PASSWORD = os.getenv("password")
+HOST = os.getenv("host")
+PORT = os.getenv("port")
+DBNAME = os.getenv("dbname")
 
-# Create SQLAlchemy engine
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    echo=False  # Set to True for SQL query logging
-)
+print(PORT)
+# Construct the SQLAlchemy connection string for Supabase (PostgreSQL)
+DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
+
+# Create the SQLAlchemy engine
+engine = create_engine(DATABASE_URL)
+
+# Test the connection
+try:
+    with engine.connect() as connection:
+        print("Connection to Supabase successful!")
+except Exception as e:
+    print(f"Failed to connect to Supabase: {e}")
+
 
 # Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -51,4 +51,6 @@ pyusb
 pdfrw
 firebase-admin
 dotenv
+psycopg2
+supabase
 aiosqlite
