@@ -39,7 +39,7 @@ CREATE TABLE Admins (
 
 CREATE TABLE Courses (
     Subject_ID VARCHAR(20) PRIMARY KEY,
-    Section VARCHAR(20) PRIMARY KEY,
+    Section VARCHAR(20),
     Subject_Name VARCHAR(150) NOT NULL,
     Units INT NOT NULL CHECK (Units > 0),
     Schedule VARCHAR(100)
