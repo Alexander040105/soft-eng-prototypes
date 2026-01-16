@@ -48,6 +48,7 @@ def register_student(student: schemas.StudentCreate, db: Session = Depends(get_d
         Name=student.Name,  # Don't forget Name field!
         Email=student.Email,
         Year=student.Year,
+        #program(bruh totally forgot this)
         Username=student.Username,
         Password=hashing_password(student.Password),
         Program_ID=student.Program_ID

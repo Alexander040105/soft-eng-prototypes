@@ -228,6 +228,7 @@ class Exam(Base):
     Date_Taken = Column(Date, nullable=False)
     Date_Recorded = Column(TIMESTAMP, server_default=func.current_timestamp())
     
+    
     __table_args__ = (
         CheckConstraint('"Total_Items" > 0', name='check_exam_total_items'),
         UniqueConstraint('Student_ID', 'Subject_ID', 'Term', name='unique_exam'),
