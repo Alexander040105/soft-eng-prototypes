@@ -54,4 +54,5 @@ dotenv
 psycopg2_binary
 supabase
 aiosqlite
+werkzeug
 alembic

@@ -33,8 +33,8 @@ def register_professor(professor: schemas.ProfessorCreate, db: Session = Depends
             detail="Username already exists"
         )
     
-    existing_email = db.query(models.Student).filter(
-        models.Student.Email == student.Email
+    existing_email = db.query(models.professor).filter(
+        models.professor.Email == professor.Email
     ).first()
     
     if existing_email:
@@ -43,18 +43,17 @@ def register_professor(professor: schemas.ProfessorCreate, db: Session = Depends
             detail="Email already exists"
         )
     
-    new_student = models.Student(
-        Student_ID=student.Student_ID,
-        Name=student.Name,  # Don't forget Name field!
-        Email=student.Email,
-        Year=student.Year,
-        Username=student.Username,
-        Password=hashing_password(student.Password),
-        Program_ID=student.Program_ID
+    new_professor = models.professor(
+        professor_ID=professor.instructor_ID,
+        Name=professor.Instructor_Name,  # Don't forget Name field!
+        Email=professor.Email,
+        Username=professor.Username,
+        Password=hashing_password(professor.Password),
+        Department=professor.Department
     )
 
-    db.add(new_student)
+    db.add(new_professor)
     db.commit()
-    db.refresh(new_student)
+    db.refresh(new_professor)
     
-    return new_student
+    return new_professor
